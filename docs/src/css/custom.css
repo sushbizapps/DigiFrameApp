@@ -1,0 +1,27 @@
+/**
+ * Minimal custom styling on top of the Docusaurus classic theme.
+ * Edit CSS variables below to reskin the site later.
+ */
+
+:root {
+  --ifm-color-primary: #2e6dd9;
+  --ifm-color-primary-dark: #2560c2;
+  --ifm-color-primary-darker: #235bb8;
+  --ifm-color-primary-darkest: #1d4b98;
+  --ifm-color-primary-light: #3e7cdf;
+  --ifm-color-primary-lighter: #4a84e1;
+  --ifm-color-primary-lightest: #6d9ce7;
+  --ifm-code-font-size: 90%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #6d9ce7;
+  --ifm-color-primary-dark: #4a84e1;
+  --ifm-color-primary-darker: #3e7cdf;
+  --ifm-color-primary-darkest: #235bb8;
+  --ifm-color-primary-light: #8bb0ec;
+  --ifm-color-primary-lighter: #9cbcef;
+  --ifm-color-primary-lightest: #c3d7f5;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
