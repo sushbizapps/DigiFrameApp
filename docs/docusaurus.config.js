@@ -35,7 +35,7 @@ const config = {
         docs: {
           routeBasePath: '/', // docs become the homepage of the site
           sidebarPath: './sidebars.js',
-          editUrl: undefined, // set to your repo edit URL once you push this to GitHub
+          editUrl: 'https://github.com/sushbizapps/DigiFrameApp/edit/main/docs/',
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
         },
