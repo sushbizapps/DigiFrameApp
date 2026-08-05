@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Sync Engine
@@ -25,7 +25,10 @@ already-imported photos).
 
 - **Provider adapters** — one per source (Google Photos, iCloud, OneDrive,
   local `MediaStore`, NAS/SMB, Flickr), each implementing a common
-  `fetchAlbums()` / `fetchMedia()` / `resolveChanges()` interface
+  `fetchAlbums()` / `fetchMedia()` / `resolveChanges()` interface. See
+  [Media Provider Abstraction](/architecture/media-provider-abstraction) for
+  the concrete interface, Phase 1's two providers (local + USB), and the
+  full future-provider list.
 - **Diffing layer** — compares last-known state vs. current provider state,
   producing an explicit add/remove/update change set — never applies removes
   without an explicit confirmation step (see
