@@ -17,15 +17,16 @@ solely on casting from a phone.
 |---|---|
 | iOS / iPadOS | Companion/controller app, browsing UI |
 | tvOS | Native big-screen slideshow experience for Apple TV owners |
-| macOS | Via SwiftUI/Catalyst — useful for office/desk digital signage and native iCloud slideshow/screensaver |
+| macOS | Via Flutter's desktop target — useful for office/desk digital signage and native iCloud slideshow/screensaver |
 
 ## Code sharing
 
-Swift/SwiftUI allows sharing roughly 80% of code across this family —
-business logic, networking, and the sync/data layer are shared. UI layers
-differ meaningfully: tvOS uses a remote-based focus engine, quite different
-from iOS touch navigation, so budget separate design/engineering time for
-the tvOS interface.
+Flutter/Dart is the same shared codebase used for Android (see
+[Android platform notes](/platforms/android)) — business logic, networking,
+and the sync/data layer are shared across every Apple target *and* with
+Android. UI layers still differ meaningfully: tvOS uses a remote-based focus
+engine, quite different from iOS touch navigation or Android TV's D-pad
+input, so budget separate design/engineering time for the tvOS interface.
 
 ## Key technical notes
 
@@ -33,9 +34,12 @@ the tvOS interface.
   third-party access to a user's iCloud Photo Library (this is more
   restricted than Google's Picker API in some respects) — confirm feasibility
   early, as this is core to the "combine Google + iCloud" differentiator
-- **Casting equivalent**: AirPlay, instead of Chromecast
+- **Casting equivalent**: AirPlay, instead of Chromecast — bridged via a
+  native platform channel, no mature cross-platform Flutter plugin covers
+  this
 - **Screensaver-like behavior**: macOS screen saver extension API, if that
-  use case is prioritized
+  use case is prioritized — this is an OS extension point, so it needs a
+  small native Swift shim even with Flutter as the main app
 
 ## Open questions
 

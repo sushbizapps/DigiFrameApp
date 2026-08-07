@@ -19,9 +19,9 @@ flowchart TB
         D["API Contracts"]
     end
 
-    subgraph NativeMobile["Native Mobile & TV"]
-        E["Android<br/>(Kotlin)<br/>+ Android TV + Fire TV"]
-        F["iOS / iPadOS<br/>+ tvOS + macOS<br/>(Swift/SwiftUI)"]
+    subgraph NativeMobile["Flutter Client (Mobile & TV)"]
+        E["Android + Android TV<br/>+ Fire TV<br/>(Flutter/Dart)"]
+        F["iOS / iPadOS<br/>+ tvOS + macOS<br/>(Flutter/Dart)"]
     end
 
     subgraph WebCore["Web Core (React)"]

@@ -33,8 +33,8 @@ already-imported photos).
   producing an explicit add/remove/update change set — never applies removes
   without an explicit confirmation step (see
   [Reliability & Trust Features](/features/reliability-trust))
-- **Local cache (Room / SQLite)** — thumbnails + metadata, enabling offline
-  playback
+- **Local cache (Drift/SQLite on the Flutter clients, IndexedDB on Web)** —
+  thumbnails + metadata, enabling offline playback
 - **Sync scheduler** — `WorkManager` (Android) / background tasks (Apple) /
   service worker or scheduled job (Web), tunable per user preference
   (interval, Wi-Fi-only, etc.)

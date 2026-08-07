@@ -50,8 +50,8 @@ constraint — internally it's a single core product.
 |---|---|---|
 | Language/runtime | Kotlin + kotlinx.coroutines + kotlinx.serialization | Modernized over time from its 2014 origin |
 | Networking | **Ktor Client** (not Retrofit) + OkHttp underneath | |
-| Local database | **Room** (Jetpack) | Matches our own planned local-cache approach |
-| Background jobs | **WorkManager** (Jetpack) | Matches our own planned sync scheduler |
+| Local database | **Room** (Jetpack) | Validates a local SQLite cache as the right pattern; we're building on Flutter, so our equivalent is Drift, not Room itself |
+| Background jobs | **WorkManager** (Jetpack) | Validates periodic-sync-via-OS-scheduler as the right pattern; reachable from our Flutter client via the `workmanager` plugin |
 | Image loading | Both **Glide** and **Coil** present | Possibly one is a transitive dependency of the other |
 | Video playback | **AndroidX Media3 / ExoPlayer** | |
 | Casting | **Google Play Services Cast** + **MediaRouter** | Standard Chromecast integration |
@@ -83,10 +83,10 @@ reported.
 
 ## Implications for our own build
 
-1. **Room + WorkManager validated** — our planned local-cache/background-sync
-   approach mirrors what's already working (partially) for the reference
-   app; the difference should be in *reliability engineering* around it, not
-   the base technology choice.
+1. **Local-SQLite-cache + OS-scheduled-background-sync validated** — the
+   pattern behind their Room + WorkManager choice mirrors our planned
+   Drift + `workmanager` approach on Flutter; the difference should be in
+   *reliability engineering* around it, not the base architecture.
 2. **A real backend is a genuine differentiator** — since the reference app
    appears to be thin-client-only, our planned shared backend (sync state,
    diff/log, multi-provider merge) is a substantive architectural advantage,

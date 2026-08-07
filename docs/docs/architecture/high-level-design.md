@@ -34,10 +34,13 @@ app syncs, caches, and renders them.
    shows the reference app has no authoritative server-side sync state.
    Owning that state server-side is a structural advantage, not just extra
    complexity.
-4. **Shared core, thin platform shells** — business logic (auth, sync,
-   curation, API contracts) is written once per ecosystem and reused across
-   every form factor in that ecosystem; only UI/input/store-specific glue is
-   per-platform.
+4. **Shared core, thin platform shells** — Flutter/Dart is one shared
+   codebase across the entire Android *and* Apple ecosystems (business logic
+   and most UI), not just within each ecosystem separately; Web/PWA stays a
+   separate React core (a better fit for Tizen/webOS's native web runtimes —
+   see [Smart TV & Web](/platforms/smart-tv-web)); Roku remains fully
+   standalone. D-pad/focus navigation, casting APIs, and store-specific glue
+   are still per-platform regardless of framework.
 
 ## 2. System context
 
@@ -87,20 +90,19 @@ flowchart TB
     end
 
     subgraph Clients["Platform Clients — thin shells over the shared core"]
-        Android["Android (Kotlin)\nphone/tablet + Android TV + Fire TV"]
-        Apple["Apple (Swift/SwiftUI)\niOS/iPadOS + tvOS + macOS"]
+        Flutter["Flutter / Dart\nAndroid phone/tablet + Android TV + Fire TV\niOS/iPadOS + tvOS + macOS"]
         Web["Web Core (React)\nPWA + Tizen + webOS + Electron"]
         Roku["Roku (BrightScript)\nstandalone, no shared code"]
     end
 
-    Core --> Android
-    Core --> Apple
+    Core --> Flutter
     Core --> Web
     Roku -.->|API contracts + design tokens only| Core
 ```
 
-Three implementations of the shared core exist in practice — one per
-ecosystem's native language (Kotlin, Swift, Web/JS) — behind the same API
+Two implementations of the shared core exist in practice — one shared
+Flutter/Dart codebase covering Android and Apple, one React/Web core for
+the PWA (and its Tizen/webOS/Electron wrappers) — behind the same API
 contracts, plus a fully standalone Roku build. See
 [Shared Backend](/architecture/shared-backend) for what is and isn't
 reusable across platforms, and why (D-pad/focus navigation and store
@@ -110,10 +112,10 @@ compliance are inherently per-platform).
 
 | Component | Responsibility | Detail page |
 |---|---|---|
-| **Provider adapters** | One per source, each implementing a common `MediaProvider` interface; Phase 1 ships local storage + USB only, with cloud providers (Google Photos, iCloud, OneDrive, NAS/SMB, Flickr, Immich) as future adapters | [Media Provider Abstraction](/architecture/media-provider-abstraction) |
+| **Provider adapters** | One per source, each implementing a common `MediaProvider` interface written once in Dart (see [Portability note](/architecture/media-provider-abstraction#portability-note)); Phase 1 ships local storage + USB only, with cloud providers (Google Photos, iCloud, OneDrive, NAS/SMB, Flickr, Immich) as future adapters | [Media Provider Abstraction](/architecture/media-provider-abstraction) |
 | **Diffing layer** | Compares last-known vs. current provider state into an explicit add/remove/update change set; never auto-applies removes | [Sync Engine](/architecture/sync-engine) |
 | **Sync scheduler** | Triggers periodic sync (`WorkManager` / background tasks / service worker), tunable per user (interval, Wi-Fi-only) | [Sync Engine](/architecture/sync-engine) |
-| **Local cache** | Room/SQLite: thumbnails + metadata per device, enabling offline slideshow playback | [Sync Engine](/architecture/sync-engine) |
+| **Local cache** | Drift/SQLite (Flutter clients) or IndexedDB (Web): thumbnails + metadata per device, enabling offline slideshow playback | [Sync Engine](/architecture/sync-engine) |
 | **Sync log** | Human-readable history of sync runs, surfaced in-app for transparency | [Reliability & Trust](/features/reliability-trust) |
 | **Curation engine** | Face grouping, duplicate/blur detection, auto-tagging/scene detection — on-device for privacy | [Smart Curation](/features/smart-curation) |
 | **Slideshow engine** | Playback: transitions, timing, fill/letterbox modes, video/GIF, overlays, Ken Burns, music sync | [Slideshow Engine](/features/slideshow-engine) |
@@ -154,8 +156,7 @@ sync cycle (or a push) surfaces it on the display, live for event use cases
 
 | Ecosystem | Codebase | Covers | Shares core with |
 |---|---|---|---|
-| Android | Kotlin | Phone/tablet, Android TV, Fire TV | — (own implementation) |
-| Apple | Swift/SwiftUI | iOS/iPadOS, tvOS, macOS | ~80% shared across the family; tvOS focus-engine UI is separate |
+| Android + Apple | Flutter/Dart | Android phone/tablet, Android TV, Fire TV, iOS/iPadOS, tvOS, macOS | Single shared codebase across both ecosystems; TV focus-engine UI (Android TV/Fire TV vs. tvOS) still needs per-platform handling |
 | Web | React | PWA (source of truth UI), Samsung Tizen, LG webOS, Electron (Windows/Linux) | Tizen/webOS/Electron are thin wrappers over the PWA core |
 | Roku | BrightScript/SceneGraph | Roku channel | None — fully standalone, reuses only API contracts + design tokens |
 
@@ -163,7 +164,7 @@ Not shareable across any of the above, by design: D-pad/remote/focus
 navigation, store submission/compliance, and native casting APIs (Cast SDK
 vs. AirPlay vs. built-in smart-TV display APIs). See
 [Shared Backend](/architecture/shared-backend) for the full rationale and
-the resulting team/skill implication (Kotlin, Swift, Web/JS + a standalone
+the resulting team/skill implication (Dart/Flutter, Web/JS + a standalone
 Roku effort).
 
 ## 7. Phased rollout
@@ -194,10 +195,10 @@ gantt
 ```
 
 Phase 1 goal: local device + USB photo playback (MediaStore + Storage
-Access Framework), sequential-playback slideshow, one Kotlin codebase
-covering Android phone and Android TV — no cloud provider yet. Google
-Photos OAuth + Picker integration lands in Phase 2 alongside Fire TV. See
-[Roadmap](/roadmap/phase-1-android) for the full phase breakdown.
+Access Framework), sequential-playback slideshow, one Flutter/Dart
+codebase covering Android phone and Android TV — no cloud provider yet.
+Google Photos OAuth + Picker integration lands in Phase 2 alongside Fire
+TV. See [Roadmap](/roadmap/phase-1-android) for the full phase breakdown.
 
 ## 8. Non-functional requirements
 

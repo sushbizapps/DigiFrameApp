@@ -20,8 +20,9 @@ Regardless of platform, the following should be built once and shared:
 ## What is *not* shareable
 
 - Remote-control/D-pad navigation logic — genuinely different per platform
-  (Android TV Leanback vs. tvOS focus engine vs. Tizen/webOS spatial
-  navigation vs. Roku SceneGraph focus). Budget this as separate,
+  (Android TV's D-pad focus handling vs. tvOS's native focus engine vs.
+  Tizen/webOS spatial navigation vs. Roku SceneGraph focus), even where the
+  underlying app code (Flutter or React) is shared. Budget this as separate,
   non-reusable engineering effort per platform.
 - Store compliance/submission process — each store (Google Play, Apple App
   Store, Amazon Appstore, Samsung/LG stores, Roku Developer Program) has its
@@ -31,12 +32,13 @@ Regardless of platform, the following should be built once and shared:
 
 ## Team/skill implication
 
-Realistically this requires three engineering skillsets rather than one team
+Realistically this requires two engineering skillsets rather than one team
 per platform:
 
-1. **Kotlin/Android** — covers Android phone, Android TV, Fire TV
-2. **Swift/Apple** — covers iOS, iPadOS, tvOS, macOS
-3. **Web/JS** — covers PWA, Samsung Tizen, LG webOS, Electron desktop (Windows/Linux)
+1. **Flutter/Dart** — one codebase covering Android phone, Android TV, Fire
+   TV, iOS, iPadOS, tvOS, and macOS
+2. **Web/JS (React)** — covers PWA, Samsung Tizen, LG webOS, Electron
+   desktop (Windows/Linux)
 
 Roku remains a fully separate, non-shared BrightScript effort regardless of
 team structure.

@@ -20,6 +20,13 @@ target:
 with thin, per-platform wrappers handling remote/input handling and store
 packaging.
 
+This is a deliberate exception to Android/Apple sharing a single
+Flutter/Dart codebase (see [High-Level Design](/architecture/high-level-design)):
+Flutter Web renders to canvas/Skia rather than DOM, which is a worse fit for
+wrapping into Tizen's Web framework and webOS's JS APIs than a real React
+app is. Staying on React here keeps the "thin wrapper, no rebuild" story
+this page relies on.
+
 ## Scope
 
 | Target | Notes |

@@ -6,9 +6,9 @@ sidebar_position: 4
 
 ## Why it's separate
 
-Roku uses **BrightScript/SceneGraph**, not JavaScript or Kotlin/Swift — none
-of the code shared across the Android, Apple, or Web cores applies here.
-This is a genuinely standalone build.
+Roku uses **BrightScript/SceneGraph**, not JavaScript or Dart — none of the
+code shared across the Flutter (Android/Apple) or Web (React) cores applies
+here. This is a genuinely standalone build.
 
 ## Why it's still worth doing
 

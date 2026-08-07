@@ -7,8 +7,10 @@ sidebar_position: 1
 ## Why this is the first target
 
 Android TV, Google TV, and Amazon Fire TV all run on Android (Fire TV is an
-Android fork), so a single Kotlin codebase can cover phone, tablet, and TV
-form factors with a TV-specific UI layer on top. This gives the widest reach
+Android fork), so a single Flutter/Dart codebase can cover phone, tablet,
+and TV form factors with a TV-specific UI layer on top — and that same
+codebase extends to Apple platforms too (see
+[Apple platform notes](/platforms/ios-tvos)). This gives the widest reach
 for the least incremental engineering cost.
 
 ## Scope
@@ -16,11 +18,14 @@ for the least incremental engineering cost.
 | Target | Notes |
 |---|---|
 | Android phone/tablet | Primary "controller" and browsing UI |
-| Android TV / Google TV | Leanback or Jetpack Compose for TV, D-pad navigation |
+| Android TV / Google TV | Flutter's `FocusNode`/D-pad focus handling for TV navigation (no Leanback/Jetpack Compose — those are Kotlin-only View toolkits) |
 | Amazon Fire TV | Android fork; separate store (Amazon Appstore); no Google Play Services on some devices — substitute Amazon's Fire OS equivalents (e.g., IAP) |
 
 ## Key technical notes
 
+- **Framework**: Flutter/Dart, shared with the Apple client. Platform
+  channels bridge to the Android-native APIs below where no mature Flutter
+  plugin exists.
 - **Local media** (Phase 1): `MediaStore` API for on-device photos; Storage
   Access Framework for USB/external drives (relevant for the "connect a USB
   drive to the TV" use case).
@@ -30,12 +35,14 @@ for the least incremental engineering cost.
   not a full library scan. Verify current API scope/quota rules before
   finalizing the sync architecture; this restriction is a likely root cause
   of the reference app's sync complaints.
-- **Casting**: Google Cast SDK (Sender + Receiver) for Chromecast.
-- **Background sync**: `WorkManager` for periodic album re-sync — engineer
-  this carefully to avoid the "auto-import silently breaks" complaint seen in
-  reference app reviews.
-- **Caching**: Room DB for thumbnails/metadata, enabling offline slideshow
-  playback.
+- **Casting**: Google Cast SDK (Sender + Receiver) for Chromecast, via
+  platform channel.
+- **Background sync**: `WorkManager` (via Flutter's `workmanager` plugin)
+  for periodic album re-sync — engineer this carefully to avoid the
+  "auto-import silently breaks" complaint seen in reference app reviews.
+- **Caching**: Drift (SQLite) for thumbnails/metadata — the Flutter-native
+  equivalent of Room, and usable as-is on the Apple client too — enabling
+  offline slideshow playback.
 
 ## Fire TV specific considerations
 

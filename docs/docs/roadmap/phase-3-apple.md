@@ -15,8 +15,8 @@ a reference-app reviewer specifically asked for.
 ## Deliverables
 
 - [ ] Google Cast SDK sender integration (from Phase 1/2 Android work) + Android TV receiver polish
-- [ ] iOS/iPadOS companion app (Swift/SwiftUI)
-- [ ] tvOS native slideshow app
+- [ ] iOS/iPadOS companion app (Flutter — same codebase as Android, see [Android platform notes](/platforms/android))
+- [ ] tvOS slideshow app (Flutter, with a tvOS-specific focus-engine UI layer)
 - [ ] iCloud Photos integration (pending API validation — see open question below)
 
 ## Why now
