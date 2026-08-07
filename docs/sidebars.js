@@ -20,8 +20,10 @@ const sidebars = {
       type: 'category',
       label: 'Architecture',
       items: [
+        'architecture/high-level-design',
         'architecture/shared-backend',
         'architecture/sync-engine',
+        'architecture/media-provider-abstraction',
         'architecture/diagrams',
       ],
     },
