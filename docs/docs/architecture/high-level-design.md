@@ -193,8 +193,10 @@ gantt
     Windows/Linux desktop (Electron) :p7, after p6, 1
 ```
 
-Phase 1 goal: Google OAuth + Photos Picker integration, sequential-playback
-slideshow, one Kotlin codebase covering Android phone and Android TV. See
+Phase 1 goal: local device + USB photo playback (MediaStore + Storage
+Access Framework), sequential-playback slideshow, one Kotlin codebase
+covering Android phone and Android TV — no cloud provider yet. Google
+Photos OAuth + Picker integration lands in Phase 2 alongside Fire TV. See
 [Roadmap](/roadmap/phase-1-android) for the full phase breakdown.
 
 ## 8. Non-functional requirements

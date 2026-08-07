@@ -21,15 +21,15 @@ for the least incremental engineering cost.
 
 ## Key technical notes
 
-- **Auth**: Google OAuth 2.0 + Google Photos Library API. Note the Library
-  API's scoped access model — apps generally can only access what they
-  created or what the user explicitly selects via the **Picker API**, not a
-  full library scan. Verify current API scope/quota rules before finalizing
-  the sync architecture; this restriction is a likely root cause of the
-  reference app's sync complaints.
-- **Local media**: `MediaStore` API for on-device photos; Storage Access
-  Framework for USB/external drives (relevant for the "connect a USB drive to
-  the TV" use case).
+- **Local media** (Phase 1): `MediaStore` API for on-device photos; Storage
+  Access Framework for USB/external drives (relevant for the "connect a USB
+  drive to the TV" use case).
+- **Auth** (Phase 2): Google OAuth 2.0 + Google Photos Library API. Note the
+  Library API's scoped access model — apps generally can only access what
+  they created or what the user explicitly selects via the **Picker API**,
+  not a full library scan. Verify current API scope/quota rules before
+  finalizing the sync architecture; this restriction is a likely root cause
+  of the reference app's sync complaints.
 - **Casting**: Google Cast SDK (Sender + Receiver) for Chromecast.
 - **Background sync**: `WorkManager` for periodic album re-sync — engineer
   this carefully to avoid the "auto-import silently breaks" complaint seen in
